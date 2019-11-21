@@ -17,7 +17,7 @@
                         img(src="../assets/exclamation-mark.png")
                     .d-flex.justify-content-center
                         button.btn.btn-secondary(type="button" data-dismiss="modal" @click.prevent="clear") 取消
-                        button.btn.btn-danger.ml-3(type="button" data-dismiss="modal" @click.prevent="checkDel") 刪除
+                        button.btn.btn-outline-danger.ml-3(type="button" data-dismiss="modal" @click.prevent="checkDel") 刪除
 </template>
 
 <script lang="ts">

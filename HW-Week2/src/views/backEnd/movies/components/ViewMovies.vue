@@ -13,6 +13,9 @@
       <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
           <div class="modal-header">
+            <div class="modal-title">
+              <h4>{{ movie.name }}</h4>
+            </div>
             <button
               type="button"
               class="close"

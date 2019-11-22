@@ -1,58 +1,58 @@
-<template>
-  <div>
-    <a href="#" class="goTop" @click.prevent="goTop()" v-show="isShowGoTop">
-      <!-- <font-awesome-icon :icon="['fas', 'angle-up']"></font-awesome-icon> -->
-      <span>▲</span>
-    </a>
-  </div>
+<template lang="pug">
+  div
+      a.goTop(href="#" @click.prevent="goTop" v-show="isShowGoTop")
+        span ▲
 </template>
 
-<script>
-import $ from 'jquery';
-export default {
-  data() {
-    return {
-      isShowGoTop: false
+<script lang="ts">
+import { Vue, Component } from "vue-property-decorator";
+import $ from "jquery";
+
+@Component
+export default class GoTop extends Vue {
+    // Data
+    isShowGoTop: boolean =  false;
+
+    mounted() {
+        this.initGoTop();
     }
-  },
-  mounted() {
-    this.initGoTop();
-  },
-  methods: {
-    goTop() {
-      $('html, body').animate({ scrollTop: 0 }, 900);
-    },
-    initGoTop() {
-      let vm = this;
-      $(document).bind('scroll', function () {
-        if ($(document).scrollTop() > 80) {
-          vm.isShowGoTop = true;
-        } else {
-          vm.isShowGoTop = false;
-        }
-      });
+
+    // 回到最上面
+    goTop(): void {
+        $("html, body").animate({ scrollTop: 0 }, 900);
     }
-  }
+
+    // 判斷是否滾動超過 80px
+    initGoTop(): void {
+        let _this = this;
+        $(document).bind("scroll", function() {
+            if ($(document).scrollTop() > 80) {
+                _this.isShowGoTop = true;
+            } else {
+                _this.isShowGoTop = false;
+            }
+        });
+    }
 }
 </script>
 
 <style lang="scss" scoped>
 .goTop {
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
-  text-align: center;
-  border-radius: 50%;
-  background-color: black;
-  // background-color: #00cc99;
-  opacity: 0.5;
-  color: white;
-  text-decoration: none;
-  position: fixed;
-  right: 50px;
-  bottom: 50px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 50%;
+    background-color: black;
+    // background-color: #00cc99;
+    opacity: 0.5;
+    color: white;
+    text-decoration: none;
+    position: fixed;
+    right: 50px;
+    bottom: 50px;
 }
 .goTop:hover {
-  opacity: 1;
+    opacity: 1;
 }
 </style>

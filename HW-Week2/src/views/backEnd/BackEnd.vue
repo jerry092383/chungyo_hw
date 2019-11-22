@@ -5,11 +5,14 @@
             .col-12.col-md-3.col-lg-2.my-5.py-0
                 .list-group.shadow
                     #dashboard.accordion
-                        mixin nav-router(myRouter, routerName, className, myClass)
-                            router-link.list-group-item.text-white(to=myRouter)&attributes(attributes)= myClass
+                        mixin nav-router(myRouter, routerName, className)
+                            router-link.list-group-item.text-white(
+                                to=myRouter
+                                :class=`{'bg-cy': checkRouter('${myRouter}'), 'bg-cy-deep': !checkRouter('${myRouter}')}`
+                            )
                                 i.fa(class=className aria-hidden="true")!= routerName
                         //- 最新消息
-                        +nav-router('/backEnd', '&nbsp;所有消息', 'fa-newspaper-o')(:class="{'bg-cy': checkRouter('/backEnd'), 'bg-cy-deep': !checkRouter('/backEnd')}")
+                        +nav-router('/backEnd', '&nbsp;所有消息', 'fa-newspaper-o', '')
 
                         //- 電影
                         a.list-group-item.dropdown-toggle.text-white.bg-cy-deep(
@@ -26,21 +29,26 @@
                             :class="{'show': checkRouter('/backEnd/moviesManage', true)}"
                         )
                             mixin ul-li(myRouter, routerName, myClass)
-                                li.pl-5&attributes(attributes)= myClass
-                                    router-link.py-2(to=myRouter)= routerName
+                                li.pl-5(
+                                    :class=`{'bg-cy': checkRouter('${myRouter}')}`
+                                )
+                                    router-link.py-2(
+                                        to=myRouter
+                                        :class=`{'text-white': checkRouter('${myRouter}')}`
+                                    )= routerName
                             ul.list-group.list-group-flush
-                                +ul-li('/backEnd/moviesManage', '所有電影')(:class="{'bg-cy': checkRouter('/backEnd/moviesManage')}")
-                                +ul-li('/backEnd/moviesManage/released', '現正上映')(:class="{'bg-cy': checkRouter('/backEnd/moviesManage/released')}")
-                                +ul-li('/backEnd/moviesManage/comingSoon', '即將上映')(:class="{'bg-cy': checkRouter('/backEnd/moviesManage/comingSoon')}")
+                                +ul-li('/backEnd/moviesManage', '所有電影')
+                                +ul-li('/backEnd/moviesManage/released', '現正上映')
+                                +ul-li('/backEnd/moviesManage/comingSoon', '即將上映')
 
                         //- 餐點
-                        +nav-router('/backEnd/mealsManage', '&nbsp;餐點', 'fa-cutlery')(:class="{'bg-cy': checkRouter('/backEnd/mealsManage'), 'bg-cy-deep': !checkRouter('/backEnd/mealsManage')}")
+                        +nav-router('/backEnd/mealsManage', '&nbsp;餐點', 'fa-cutlery')
 
                         //- 折扣
-                        +nav-router('/backEnd/discountManage', '&nbsp;折扣', 'fa-percent')(:class="{'bg-cy': checkRouter('/backEnd/discountManage'), 'bg-cy-deep': !checkRouter('/backEnd/discountManage')}")
+                        +nav-router('/backEnd/discountManage', '&nbsp;折扣', 'fa-percent')
 
                         //- 報表
-                        +nav-router('/backEnd/report', '&nbsp;報表', 'fa-bar-chart')(:class="{'bg-cy': checkRouter('/backEnd/report'), 'bg-cy-deep': !checkRouter('/backEnd/report')}")
+                        +nav-router('/backEnd/report', '&nbsp;報表', 'fa-bar-chart')
                 
                 //- 一件爬蟲按鈕
                 button.btn.btn-secondary.mt-3(:disabled="isDisabled" @click.prevent="crawl") 借鑒電影

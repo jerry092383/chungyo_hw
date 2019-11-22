@@ -1,88 +1,73 @@
-<template>
-  <div>
-    <div
-      class="modal fade"
-      :id="`movieForm${id}`"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="movieFormTitle"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="movieFormTitle">{{ event }}電影</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-12 col-md-6">
-                <div class="form-group">
-                  <label>片名 :</label>
-                  <input type="text" class="form-control" v-model="movieDatas.name" />
-                </div>
-                <div class="form-group">
-                  <label>主演 :</label>
-                  <input type="text" class="form-control" v-model="movieDatas.actor" />
-                </div>
-                <div class="form-group">
-                  <label>類型 :</label>
-                  <input type="text" class="form-control" v-model="movieDatas.genre" />
-                </div>
-                <div class="form-group">
-                  <label>上映日期 :</label>
-                  <input type="date" class="form-control" v-model="movieDatas.play_date" />
-                </div>
-                <div class="form-group">
-                  <label>片長 :</label>
-                  <input type="text" class="form-control" v-model="movieDatas.run_time" />
-                </div>
-              </div>
-              <div class="col-12 col-md-6">
-                <div class="form-group">
-                  <label>分級 :</label>
-                  <input type="text" class="form-control" v-model="movieDatas.rating" />
-                </div>
-                <div class="form-group">
-                  <label>預告片( YouTube網址 ) :</label>
-                  <input type="text" class="form-control" v-model="movieDatas.trailer" />
-                </div>
-                <div class="form-group">
-                  <label>電影描述 :</label>
-                  <textarea class="form-control" rows="8" v-model="movieDatas.info"></textarea>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal" @click.prevent="updateMovies">送出</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<template lang="pug">
+    div
+        .modal.fade(:id="`movieForm${id}`" tabindex="-1" aria-labellebdy="movieFormTitle" aria-hidden="true")
+            .modal-dialog.modal-dialog-centered.modal-xl(role="document")
+                .modal-content
+                    .modal-header
+                        h5#movieFormTitle.modal-title {{ event }}電影
+                        button.close(type="button" data-dismiss="modal" aria-label="Close")
+                            span(aria-hidden="true") &times;
+                    .modal-body
+                        .row
+                            .col-12.col-md-6
+                                mixin form-group(text, myType, model, isInput)
+                                    .form-group
+                                        label #{text}
+                                        if isInput
+                                            input.form-control(type=`${myType}` v-model=`${model}`)
+                                        else
+                                            textarea.form-control(row="8" v-model=`${model}`)
+
+                                +form-group('片名 : ', 'text', 'movieDatas.name', true) 
+                                +form-group('主演 : ', 'text', 'movieDatas.actor', true)
+                                +form-group('類型 : ', 'text', 'movieDatas.genre', true)
+                                +form-group('上映日期 : ', 'date', 'movieDatas.play_date', true)
+                                +form-group('片長 : ', 'text', 'movieDatas.run_time', true)
+                            .col-12.col-md-6
+                                +form-group('分級 : ', 'text', 'movieDatas.rating', true)
+                                +form-group('預告片( Youtube 網址 ) : ', 'text', 'movieDatas.trailer', true)
+                                +form-group('電影描述 : ', '', 'movieDatas.info', false)
+                    .modal-footer
+                        button.btn.btn-outline-secondary(data-dismiss="modal") 取消
+                        button.btn.btn-primary(data-dismiss="modal" @click.prevent="updateMovies") 修改
 </template>
 
-<script>
-export default {
-  props: ['movieDatas', 'event', 'id'],
-  data() {
-    return {
+<script lang="ts">
+import { Component, Vue, Prop } from "vue-property-decorator";
 
+@Component
+export default class MovieForm extends Vue {
+    test: string = "";
+    @Prop()
+    movieDatas!: any;
+
+    @Prop(String)
+    event!: string;
+
+    @Prop(Number)
+    id!: number;
+
+    updateMovies(): void {
+        const _this = this;
+        let formData = new FormData();
+        formData.append("movieDatas", this.movieDatas);
+        this.axios
+            .post(`${this.$api}/movies/update/${this.movieDatas.id}`, formData)
+            .then(response => {
+                console.log(response);
+                if (response.data.status == 201) {
+                    _this.$toasted.success(response.data.msg, {
+                        theme: "bubble",
+                        duration: 5000
+                    });
+                } else {
+                    _this.$toasted.error(response.data.msg, {
+                        theme: "bubble",
+                        duration: 5000
+                    });
+                }
+            });
     }
-  },
-  methods: {
-    updateMovies() {
-      let formData = new FormData();
-      formData.append('movieDatas', this.movieDatas);
-      this.axios.post(`${this.$api}/movies/update/${this.movieDatas.id}`, formData).then((response) => {
-        console.log(response.data);
-      });
-    }
-  },
 }
 </script>
 

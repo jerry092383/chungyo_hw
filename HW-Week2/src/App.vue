@@ -5,7 +5,20 @@
             router-link(to="/about") About
             router-link(to="/backEnd") BackEnd
         router-view.mt-3
+        GoTop
 </template>
+
+<script lang="ts">
+import { Vue, Component } from "vue-property-decorator";
+import GoTop from '@/components/GoTop.vue';
+
+@Component({
+    components: {
+        GoTop
+    }
+})
+export default class App extends Vue {}
+</script>
 
 <style lang="scss">
 @import "bootstrap/scss/bootstrap";

@@ -1,84 +1,92 @@
-<template>
-  <div>
-    <h4 class="uk-heading-line uk-text-center mt-4">
-      <span>要呈現在前台的電影</span>
-    </h4>
-    <h5 v-if="showMoviesData == ''" class="text-center">目前無資料</h5>
-    <MovieCard :action="'remove'" :id="1" :movies-data="showMoviesData" @remove="removeShowMovies"></MovieCard>
-    <h4 class="uk-heading-line uk-text-center">
-      <span>所有即將上映電影</span>
-    </h4>
-    <MovieCard :action="'add'" :id="0" :movies-data="moviesData" @add="addShowMovies"></MovieCard>
-
-    <Loading v-if="isLoading"></Loading>
-  </div>
+<template lang="pug">
+    div
+        h4.mt-4: span 要呈現在前台的電影
+        h5.text-center(v-if="showMoviesData == ''") 目前無資料
+        MovieCard(:action="'remove'" :id="1" :movies-data="showMoviesData" @remove="removeShowMovies")
+        h4.mt-4: span 所有即將上映電影
+        MovieCard(:action="'add'" :id="0" :movies-data="moviesData" @add="addShowMovies")
+        Loading(v-if="isLoading")
 </template>
 
-<script>
-import MovieCard from '@/views/backEnd/movies/components/MovieCard.vue';
-import Loading from '@/components/Loading.vue';
+<script lang="ts">
+import { Component, Vue, Watch } from "vue-property-decorator";
+import MovieCard from "@/views/backEnd/movies/components/MovieCard.vue";
+import Loading from "@/components/Loading.vue";
 
-export default {
-  components: {
-    MovieCard,
-    Loading
-  },
-  data() {
-    return {
-      moviesData: {},
-      showMoviesData: {},
-      isLoading: true
+@Component({
+    components: {
+        MovieCard,
+        Loading
     }
-  },
-  watch: {
-    showMoviesData(val) {
-      if (val != '') {
-        this.isLoading = false;
-      }
+})
+export default class comingSoon extends Vue {
+    moviesData: object = {};
+    showMoviesData: object = {};
+    isLoading: boolean = true;
+
+    @Watch("showMoviesData")
+    checkShowMoviesData(val: object): void {
+        if (val != {}) {
+            this.isLoading = false;
+        }
     }
-  },
-  mounted() {
-    this.getMovies();
-    this.getShowMovies();
-  },
-  methods: {
-    getMovies() {
-      const _this = this;
-      this.axios.get(`${this.$api}/movies/showMovies/comingSoon/0`).then((response) => {
-        // console.log(response.data);
-        _this.moviesData = response.data;
-      });
-    },
-    getShowMovies() {
-      const _this = this;
-      this.axios.get(`${this.$api}/movies/showMovies/comingSoon/1`).then((response) => {
-        // console.log(response.data);
-        _this.showMoviesData = response.data;
-      });
-    },
-    addShowMovies(movieId) {
-      const _this = this;
-      this.axios.get(`${this.$api}/movies/addShowMovies/${movieId}`).then((response) => {
-        // console.log(response.data);
+
+    mounted() {
         this.getMovies();
         this.getShowMovies();
-      });
-    },
-    removeShowMovies(movieId) {
-      const _this = this;
-      this.axios.get(`${this.$api}/movies/removeShowMovies/${movieId}`).then((response) => {
-        // console.log(response.data);
-        this.getMovies();
-        this.getShowMovies();
-      });
     }
-  }
+
+    // 取得"要"顯示在前台的即將上映電影資料
+    getMovies(): void {
+        const _this = this;
+        this.axios
+            .get(`${this.$api}/movies/showMovies/comingSoon/0`)
+            .then(response => {
+                // console.log(response.data);
+                _this.moviesData = response.data;
+            });
+    }
+
+    // 取得"不"顯示在前台的即將上映電影資料
+    getShowMovies(): void {
+        const _this = this;
+        this.axios
+            .get(`${this.$api}/movies/showMovies/comingSoon/1`)
+            .then(response => {
+                // console.log(response.data);
+                _this.showMoviesData = response.data;
+            });
+    }
+
+    // 新增至要顯示於前台
+    addShowMovies(movieId: number): void {
+        const _this = this;
+        this.axios
+            .get(`${this.$api}/movies/addShowMovies/${movieId}`)
+            .then(response => {
+                // console.log(response.data);
+                this.getMovies();
+                this.getShowMovies();
+            });
+    }
+
+    // 從顯示於前臺中移除
+    removeShowMovies(movieId: number): void {
+        const _this = this;
+        this.axios
+            .get(`${this.$api}/movies/removeShowMovies/${movieId}`)
+            .then(response => {
+                // console.log(response.data);
+                this.getMovies();
+                this.getShowMovies();
+            });
+    }
 }
 </script>
 
 <style lang="scss" scoped>
 h4 {
-  font-weight: 600;
-  opacity: 0.7;
+    font-weight: 600;
+    opacity: 0.7;
 }
 </style>

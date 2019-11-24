@@ -10,6 +10,8 @@
                     .modal-body
                         .row
                             .col-12.col-md-6
+
+                                //- mixin
                                 mixin form-group(text, myType, model, isInput)
                                     .form-group
                                         label #{text}
@@ -37,7 +39,6 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 
 @Component
 export default class MovieForm extends Vue {
-    test: string = "";
     @Prop()
     movieDatas!: any;
 
@@ -50,7 +51,7 @@ export default class MovieForm extends Vue {
     updateMovies(): void {
         const _this = this;
         let formData = new FormData();
-        formData.append("movieDatas", this.movieDatas);
+        formData.append("movieDatas", JSON.stringify(this.movieDatas));
         this.axios
             .post(`${this.$api}/movies/update/${this.movieDatas.id}`, formData)
             .then(response => {

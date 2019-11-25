@@ -69,7 +69,7 @@ export default class BackEnd extends Vue {
     isDisabled: boolean = false;
 
     // 執行一鍵爬蟲
-    crawl() {
+    crawl(): void {
         (this.isDisabled = true),
             this.$toasted.info("借鑑電影資料中", {
                 theme: "bubble"

@@ -69,7 +69,7 @@ export default class TodayTurnover extends Vue {
             let yesterdayList: any[] = []; // 昨天的訂單資料
 
             // 透過 forEach 將今天吉昨天的資料取出來
-            response.data.forEach((item: any) => {
+            response.data.forEach((item: any) => {  
                 if (item.datetime.indexOf(today) >= 0) {
                     todayList.push(item);
                 } else if (item.datetime.indexOf(yesterday) >= 0) {

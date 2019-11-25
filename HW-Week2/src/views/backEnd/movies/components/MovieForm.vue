@@ -50,12 +50,11 @@ export default class MovieForm extends Vue {
 
     updateMovies(): void {
         const _this = this;
-        let formData = new FormData();
+        let formData: any = new FormData();
         formData.append("movieDatas", JSON.stringify(this.movieDatas));
         this.axios
             .post(`${this.$api}/movies/update/${this.movieDatas.id}`, formData)
             .then(response => {
-                console.log(response);
                 if (response.data.status == 201) {
                     _this.$toasted.success(response.data.msg, {
                         theme: "bubble",

@@ -55,15 +55,17 @@ export default class TicketType extends Vue {
             _this.getTicketData(ticketType);
         });
     }
+
+    // 取得所有票的資料
     getTicketData(ticketType: any[]): void {
         const _this = this;
         this.axios
             .get(`${this.$api}/report/ticketType/ticketData`)
-            .then(response => {
-                let general = 0; // 全票
-                let offer = 0; // 優待票
-                let student = 0; // 學生票
-                let old = 0; // 敬老票
+            .then((response: any) => {
+                let general: number = 0; // 全票
+                let offer: number = 0; // 優待票
+                let student: number = 0; // 學生票
+                let old: number = 0; // 敬老票
 
                 // 統計各票種數量
                 response.data.forEach((item: any) => {
@@ -73,10 +75,10 @@ export default class TicketType extends Vue {
                     student += num.學生票;
                     old += num.敬老票;
                 });
-                let ticketData = [general, offer, student, old];
+                let ticketData: any[] = [general, offer, student, old];
 
                 // 個票種背景顏色
-                let backgroundColor = [
+                let backgroundColor: any[] = [
                     "rgba(255, 99, 132, 0.2)",
                     "rgba(54, 162, 235, 0.2)",
                     "rgba(153, 102, 255, 0.2)",
@@ -84,7 +86,7 @@ export default class TicketType extends Vue {
                 ];
 
                 // 各票種邊框顏色
-                let borderColor = [
+                let borderColor: any[] = [
                     "rgba(255, 99, 132, 1)",
                     "rgba(54, 162, 235, 1)",
                     "rgba(153, 102, 255, 1)",

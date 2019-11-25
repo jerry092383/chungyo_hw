@@ -19,7 +19,7 @@ export default class GoTop extends Vue {
 
     // 回到最上面
     goTop(): void {
-        $("html, body").animate({ scrollTop: 0 }, 900);
+        $("html, body").animate({ scrollTop: 0 as number }, 900);
     }
 
     // 判斷是否滾動超過 80px

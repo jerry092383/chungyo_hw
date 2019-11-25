@@ -1,10 +1,10 @@
 <template lang="pug">
     div
-        h4.mt-4: span 要呈現在前台的電影
-        h5.text-center(v-if="showMoviesData == ''") 目前無資料
-        MovieCard(v-else :action="'remove'" :id="1" :movies-data="showMoviesData" @remove="removeShowMovies")
-        h4.text-center: span 所有已上映電影
-        MovieCard(:action="'add'" :id="0" :movies-data="showMoviesData" @add="addShowMovies")
+        h4.mt-5: span - 要呈現在前台的電影
+        h5.mt-4(v-if="showMoviesData == ''") 目前無資料
+        MovieCard.mt-4(v-else :action="'remove'" :id="1" :movies-data="showMoviesData" @remove="removeShowMovies")
+        h4.mt-5: span - 所有已上映電影
+        MovieCard.mt-4(:action="'add'" :id="0" :movies-data="showMoviesData" @add="addShowMovies")
 
         //- 載入動畫
         Loading(v-if="isLoading")
@@ -33,7 +33,7 @@ export default class Released extends Vue {
         }
     }
 
-    mounted() {
+    mounted(): void {
         this.getMovies();
         this.getShowMovies();
     }
@@ -44,7 +44,6 @@ export default class Released extends Vue {
         this.axios
             .get(`${this.$api}/movies/showMovies/released/0`)
             .then(response => {
-                // console.log(response.data);
                 _this.moviesData = response.data;
             });
     }
@@ -55,7 +54,6 @@ export default class Released extends Vue {
         this.axios
             .get(`${this.$api}/movies/showMovies/released/1`)
             .then(response => {
-                // console.log(response.data);
                 _this.showMoviesData = response.data;
             });
     }
@@ -66,7 +64,6 @@ export default class Released extends Vue {
         this.axios
             .get(`${this.$api}/movies/addShowMovies/${movieId}`)
             .then(response => {
-                // console.log(response.data);
                 this.getMovies();
                 this.getShowMovies();
             });
@@ -78,7 +75,6 @@ export default class Released extends Vue {
         this.axios
             .get(`${this.$api}/movies/removeShowMovies/${movieId}`)
             .then(response => {
-                // console.log(response.data);
                 this.getMovies();
                 this.getShowMovies();
             });

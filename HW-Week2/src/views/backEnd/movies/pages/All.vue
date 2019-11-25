@@ -1,7 +1,7 @@
 <template lang="pug">
     div
-        h4.mt-4: span 所有電影
-        MovieCard.mt-5(:movies-data="moviesData")
+        h4.mt-5: span 所有電影
+        MovieCard.mt-4(:movies-data="moviesData")
         Loading(v-if="isLoading")
 </template>
 
@@ -35,7 +35,6 @@ export default class All extends Vue {
     getMovies(): void {
         const _this = this;
         this.axios.get(`${this.$api}/movies/`).then(response => {
-            // console.log(response.data);
             _this.moviesData = response.data;
         });
     }

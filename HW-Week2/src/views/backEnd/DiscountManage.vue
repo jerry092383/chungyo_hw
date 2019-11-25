@@ -100,13 +100,11 @@ export default class DiscountManage extends Vue {
         if (discountId == "") {
             this.axios.get(`${_this.$api}/discount/`).then(response => {
                 _this.discountsData = response.data;
-                // console.log(response.data);
             });
         } else {
             this.axios
                 .get(`${_this.$api}/discount/${discountId}`)
                 .then(response => {
-                    // $('#newsForm').modal('show');
                     let data = response.data[0];
                     _this.discount = data.discount;
                     _this.description = data.description;
@@ -188,7 +186,6 @@ export default class DiscountManage extends Vue {
 
     // 刪除折扣
     deleteDiscount(): void {
-        // console.log(this.setId);
         const _this = this;
         this.axios
             .delete(`${_this.$api}/discount/${_this.setId}`)

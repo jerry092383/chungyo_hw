@@ -4,8 +4,8 @@
         button.btn.btn-primary.mt-3(data-toggle="modal" data-target="#mealsForm" @click.prevent="action = '新增'") 新增 + 
 
         //- 食物清單
-        h4 食物
-        .row
+        h4.mt-5 - 食物
+        .row.mt-4
             .col-6.col-md-4.col-lg-3.mb-3(v-for="(item, index) in foods" :key="index")
                 .card
                     img.card-img-top(:src="item.img_url")
@@ -18,8 +18,8 @@
                             button.btn.btn-danger(data-toggle="modal" data-target="#mealsForm" @click.prevent="deleteMeals") 刪除
         
         //- 飲料清單
-        h4 飲料
-        .row
+        h4.mt-5 - 飲料
+        .row.mt-4
             .col-6.col-md-4.col-lg-3.mb-3(v-for="(item, index) in drinks" :key="index")
                 .card
                     img.card-img-top(:src="item.img_url")
@@ -101,16 +101,14 @@ export default class MealsManage extends Vue {
         }
     }
 
-    mounted() {
+    mounted(): void {
         this.getMealsData();
-        // this.getCategory();
     }
 
     // 取得餐點資料
-    getMealsData() {
+    getMealsData(): void {
         const _this = this;
         this.axios.get(`${this.$api}/meals/`).then(response => {
-            // console.log(response.data);
             _this.mealsData = response.data;
             _this.foods = this.mealsData.filter(res => {
                 return res.category == "食物";
@@ -136,7 +134,6 @@ export default class MealsManage extends Vue {
                 headers: { "Content-Type": "multipart/form-data" }
             })
             .then(response => {
-                // console.log(response.data);
                 if (response.data.status == 201) {
                     _this.$toasted.success(response.data.msg, {
                         theme: "bubble",

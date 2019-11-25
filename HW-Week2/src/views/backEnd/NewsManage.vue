@@ -172,7 +172,6 @@ export default class NewsManage extends Vue {
     updateNews(): void {
         const _this = this;
         this.file = (this.$refs.file as Vue & { files: any }).files[0];
-        // this.file = this.$refs.file.files[0];
         let formData: FormData = new FormData();
         formData.append("title", this.title);
         formData.append("content", this.content);
@@ -187,7 +186,6 @@ export default class NewsManage extends Vue {
                 }
             })
             .then((response: any) => {
-                // console.log(response.data);
                 if (response.data.status == 201) {
                     _this.$toasted.success(response.data.msg, {
                         theme: "bubble",
@@ -206,7 +204,6 @@ export default class NewsManage extends Vue {
 
     // 刪除News
     deleteNews(): void {
-        // console.log(this.setId);
         const _this = this;
         this.axios
             .delete(`${_this.$api}/news/${_this.setId}`)

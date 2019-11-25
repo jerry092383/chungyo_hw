@@ -12,5 +12,5 @@
 * Week 2:
 
     - 學習 ES6 + Vue Typescript + Pug
-    - 使用Javascript ES6 及 Typescript 並將其應用在資策會專題
+    - 使用Javascript ES6 及 Typescript 並將其應用在資策會專題 (100%)
     - https://es6.ruanyifeng.com/#README (ES6文件)

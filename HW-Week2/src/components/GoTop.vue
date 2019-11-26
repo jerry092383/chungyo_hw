@@ -25,8 +25,9 @@ export default class GoTop extends Vue {
     // 判斷是否滾動超過 80px
     initGoTop(): void {
         let _this = this;
+        const scroll: any = $(document).scrollTop();
         $(document).bind("scroll", function() {
-            if ($(document).scrollTop() > 80) {
+            if (scroll > 80) {
                 _this.isShowGoTop = true;
             } else {
                 _this.isShowGoTop = false;

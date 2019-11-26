@@ -11,7 +11,7 @@ import $ from "jquery";
 @Component
 export default class GoTop extends Vue {
     // Data
-    isShowGoTop: boolean =  false;
+    isShowGoTop: boolean = false;
 
     mounted() {
         this.initGoTop();
@@ -25,8 +25,8 @@ export default class GoTop extends Vue {
     // 判斷是否滾動超過 80px
     initGoTop(): void {
         let _this = this;
-        const scroll: any = $(document).scrollTop();
         $(document).bind("scroll", function() {
+            const scroll: any = $(document).scrollTop();
             if (scroll > 80) {
                 _this.isShowGoTop = true;
             } else {

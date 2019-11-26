@@ -136,7 +136,6 @@ export default class DiscountManage extends Vue {
                 }
             })
             .then(response => {
-                console.log(response.data.status);
                 if (response.data.status == 201) {
                     _this.$toasted.success(response.data.msg, {
                         theme: "bubble",

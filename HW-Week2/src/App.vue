@@ -1,5 +1,7 @@
 <template lang="pug">
     #app
+        .text-center.mt-3
+            router-link(to="/backEnd") MyBackEnd
         router-view.mt-3
         GoTop
 </template>

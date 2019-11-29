@@ -1,71 +1,119 @@
 <template lang="pug">
     el-container#login
         el-main
+            h1 補習班繳費管理系統
             el-row
-                el-col(:span="6" :offset="9")
+                el-col(
+                    :span="6"
+                    :offset="9"
+                )
                     el-card
                         div(slot="header")
                             span 登入
-                        div
-                            el-input(v-model="account" placeholder="請輸入帳號" clearable)
-                                template(slot="prepend"): i.el-icon-user
-                            el-input(v-model="password" placeholder="請輸入密碼" clearable show-password)
-                                template(slot="prepend"): i.el-icon-lock
-                            el-button(type="primary" @click.prevent="checkLogin" round) 送出
+                        el-form(
+                            :model="ruleForm"
+                            :rules="rules" ref="ruleForm"
+                            @keyup.enter.native="checkLogin('ruleForm')"
+                            status-icon
+                        )
+                            el-form-item(prop="account")
+                                el-input(
+                                    v-model="ruleForm.account"
+                                    placeholder="請輸入帳號" clearable
+                                )
+                                    template(slot="prepend"): i.el-icon-user
+                            el-form-item(prop="password")
+                                el-input(
+                                    v-model="ruleForm.password"
+                                    placeholder="請輸入密碼"
+                                    clearable
+                                    show-password
+                                )
+                                    template(slot="prepend"): i.el-icon-lock
+                            el-button(
+                                type="primary"
+                                @click.prevent="checkLogin('ruleForm')"
+                                round
+                            ) 送出
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
+import { Vue, Component, Watch } from "vue-property-decorator";
 
 @Component
 export default class Login extends Vue {
-    account: string = "";
-    password: string = "";
+    ruleForm: any = {
+        account: "" as string,
+        password: "" as string
+    };
+    rules: object = {
+        account: [{ required: true, message: "請輸入帳號", trigger: "blur" }],
+        password: [{ required: true, message: "請輸入密碼", trigger: "blur" }]
+    };
 
     mounted() {
-        this.checkLogin();
+        // this.checkLogin();
     }
 
-    checkLogin(): void {
-        this.axios
-            .get("/test")
-            .then(response => {
-                console.log(response.data);
-            })
-            .catch(err => {
-                console.log(err);
-            });
+    checkLogin(formName: string): void {
+        (this.$refs[formName] as any).validate((valid: boolean) => {
+            if (valid) {
+                this.axios
+                    .post("/api/login", {
+                        account: this.ruleForm.account,
+                        password: this.ruleForm.password
+                    })
+                    .then(response => {
+                        console.log(response.data);
+                        if (response.data.status === "success") {
+                            this.$router.push("/");
+                            this.$notify.success({
+                                title: "登入",
+                                message: response.data.msg,
+                                offset: 60
+                            });
+                        } else if (response.data.status === "failed") {
+                            this.$notify.error({
+                                title: "登入",
+                                message: response.data.msg,
+                                offset: 60
+                            });
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            }
+        });
+        // this.$router.push("/");
     }
 }
 </script>
 
 <style lang="scss" scoped>
-#login {
-    height: 100vh;
-}
 .el-container {
+    height: 100vh;
+    width: 100vw;
     background-color: #606266;
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
     .el-main {
         max-height: 100%;
-        // display: flex;
-        // justify-content: center;
-
+        h1 {
+            text-align: center;
+            font-size: 3.5em;
+            background: linear-gradient(to right, #ffc813, #da1b60);
+            background-clip: text;
+            color: transparent;
+        }
         .el-row {
-            display: flex;
-            align-items: center;
-
             .el-col {
-                // display: flex;
-                // align-items: center;
-
+                padding-bottom: 5%;
                 .el-card::v-deep {
-
+                    margin-top: 5%;
                     .el-card__header {
                         text-align: center;
-                    }
-                    .el-input {
-                        margin-bottom: 10px;
                     }
                     .el-button {
                         width: 100%;

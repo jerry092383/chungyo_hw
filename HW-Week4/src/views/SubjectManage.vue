@@ -1,13 +1,13 @@
 <template lang="pug">
     div
-        p {{ $store.state.test }}
+        | 科目管理
 </template>
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 
 @Component
-export default class Home extends Vue {}
+export default class SubjectManage extends Vue {}
 </script>
 
 <style lang="scss" scoped>

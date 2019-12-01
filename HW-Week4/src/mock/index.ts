@@ -2,7 +2,9 @@ import Mock from 'mockjs'
 
 Mock.mock('/api/test', 'get', setMember);
 Mock.mock('/api/login', 'post', checkLogin);
+Mock.mock('/api/subject', 'get', getSubjectList)
 
+// 設置管理員帳號
 function setMember() {
     let data: any[] = [
         {
@@ -30,6 +32,7 @@ function setMember() {
     return data;
 }
 
+// 確認是否登入成功
 function checkLogin(member: any) {
     let members: any[] = setMember();
     member = JSON.parse(member.body);
@@ -37,10 +40,10 @@ function checkLogin(member: any) {
         let checkAccount: boolean = member.account === members[i].account;
         let checkPassword: boolean = member.password === members[i].password;
         if (checkAccount && checkPassword) {
-            localStorage.setItem('member', JSON.stringify(members[i]))
             return {
                 'msg': `${members[i].name} 歡迎登入!!`,
-                'status': 'success'
+                'status': 'success',
+                'data': members[i]
             }
         }
 
@@ -50,6 +53,19 @@ function checkLogin(member: any) {
         "msg": '帳號或密碼錯誤!!',
         'status': 'failed'
     }
+}
+
+// 取得科目清單
+function getSubjectList() {
+    let subjectArr: any[] = [
+        {
+            'name': '國文',
+            'price': 2000,
+            'teacher': '吳凡'
+        }
+    ];
+
+    return subjectArr;
 }
 
 export default Mock

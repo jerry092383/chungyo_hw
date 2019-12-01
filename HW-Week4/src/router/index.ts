@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
+import store from '@/store/index'
 Vue.use(VueRouter)
+
 
 const routes = [
 	{
@@ -49,11 +50,11 @@ router.beforeEach((to, from, next) => {
 	// to and from are both route objects. must call `next`.
 	switch (to.path) {
 		case '/':
-			if (localStorage.getItem('member')) {
+			if (store.getters['myModule/getLoginStatus']) {
 				next();
-			} else {
-				next('/login');
+				break;
 			}
+			next('/login');
 			break;
 		default:
 			next();

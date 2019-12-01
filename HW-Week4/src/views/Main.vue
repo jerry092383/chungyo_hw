@@ -33,7 +33,6 @@ export default class Main extends Vue {
     member: any = {};
 
     mounted(): void {
-        this.member = JSON.parse(localStorage.getItem("member") || "");
     }
 }
 </script>

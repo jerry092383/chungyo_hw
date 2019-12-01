@@ -5,7 +5,7 @@
                 el-breadcrumb-item(:to="{path: '/'}") 首頁
                 el-breadcrumb-item(v-if="!($route.name === '首頁')") {{ $route.name }}
         ul
-            li: i.el-icon-user-solid  {{ member.name }}
+            li: i.el-icon-user-solid {{ memberData.name }}
             li: a(
                 href=""
                 @click.prevent="logout"
@@ -14,18 +14,23 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
+import { State, Mutation } from 'vuex-class';
+import myModule from '../store/module';
 
 @Component
 export default class Navbar extends Vue {
     member: any = {};
+    $notify: any;
+    @State('member', { namespace: 'myModule' }) memberData: any;
+    @Mutation('logoutMember', { namespace: 'myModule' }) logoutMember: any;
 
-    mounted(): void {
-        this.member = JSON.parse(localStorage.getItem("member") || "");
+    mounted() {
     }
 
     // 登出
-    logout(): void {
-        localStorage.clear();
+    logout() {
+        this.logoutMember();
+        sessionStorage.removeItem('member');
         this.$notify.success({
             title: "已登出",
             message: "",

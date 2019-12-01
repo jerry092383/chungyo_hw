@@ -39,23 +39,26 @@
 
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
+import { getModule } from "vuex-module-decorators";
+import { Getter, Action, Mutation, namespace } from "vuex-class";
 
 @Component
 export default class Login extends Vue {
+    $notify: any;
     ruleForm: any = {
         account: "" as string,
-        password: "" as string
+        password: "" as string,
+        name: "" as string
     };
     rules: object = {
         account: [{ required: true, message: "請輸入帳號", trigger: "blur" }],
         password: [{ required: true, message: "請輸入密碼", trigger: "blur" }]
     };
 
-    mounted() {
-        // this.checkLogin();
-    }
+    @Mutation("setMemberStatus", { namespace: "myModule" }) setMemberStatus: any;
+    @Getter('getMemberData', { namespace: 'myModule' }) memberData: any;
 
-    checkLogin(formName: string): void {
+    public checkLogin(formName: string): void {
         (this.$refs[formName] as any).validate((valid: boolean) => {
             if (valid) {
                 this.axios
@@ -66,26 +69,30 @@ export default class Login extends Vue {
                     .then(response => {
                         console.log(response.data);
                         if (response.data.status === "success") {
+                            let data: object = {
+                                name: response.data.data.name,
+                                account: response.data.data.account
+                            };
+                            this.setMemberStatus(data);
                             this.$router.push("/");
                             this.$notify.success({
                                 title: "登入",
                                 message: response.data.msg,
                                 offset: 60
                             });
-                        } else if (response.data.status === "failed") {
-                            this.$notify.error({
-                                title: "登入",
-                                message: response.data.msg,
-                                offset: 60
-                            });
+                            return;
                         }
+                        this.$notify.error({
+                            title: "登入",
+                            message: response.data.msg,
+                            offset: 60
+                        });
                     })
                     .catch(err => {
                         console.log(err);
                     });
             }
         });
-        // this.$router.push("/");
     }
 }
 </script>

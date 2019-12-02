@@ -14,27 +14,25 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-import { State, Mutation } from 'vuex-class';
-import myModule from '../store/module';
+import { State, Mutation } from "vuex-class";
+import myModule from "../store/module";
 
 @Component
 export default class Navbar extends Vue {
     member: any = {};
     $notify: any;
-    @State('member', { namespace: 'myModule' }) memberData: any;
-    @Mutation('logoutMember', { namespace: 'myModule' }) logoutMember: any;
-
-    mounted() {
-    }
+    @State("member", { namespace: "myModule" }) memberData: any;
+    @Mutation("LOGOUT_MEMBER", { namespace: "myModule" }) LOGOUT_MEMBER: any;
 
     // 登出
     logout() {
-        this.logoutMember();
-        sessionStorage.removeItem('member');
+        this.LOGOUT_MEMBER();
+        sessionStorage.removeItem("member");
         this.$notify.success({
             title: "已登出",
             message: "",
-            offset: 60
+            offset: 60,
+            duration: 2500
         });
         this.$router.push("/login");
     }

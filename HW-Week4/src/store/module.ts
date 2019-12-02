@@ -20,14 +20,14 @@ export default class module extends VuexModule {
     }
 
     @Mutation
-    setMemberStatus(memberData: any) {
+    SET_MEMBER_STATUS(memberData: any) {
         this.member.name = memberData.name;
         this.member.account = memberData.account;
         this.member.isLogin = true;
     }
 
     @Mutation
-    logoutMember() {
+    LOGOUT_MEMBER() {
         this.member = {};
         this.member.isLogin = false;
     }

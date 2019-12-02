@@ -29,12 +29,7 @@ import NavMenu from "@/components/NavMenu.vue";
         NavMenu
     }
 })
-export default class Main extends Vue {
-    member: any = {};
-
-    mounted(): void {
-    }
-}
+export default class Main extends Vue {}
 </script>
 
 <style lang="scss" scoped>

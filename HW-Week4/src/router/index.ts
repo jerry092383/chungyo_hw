@@ -12,6 +12,7 @@ const routes = [
 	{
 		path: '/',
 		component: () => import('@/views/Main.vue'),
+		meta: { requiresAuth: true },
 		children: [
 			{
 				path: '',
@@ -47,19 +48,15 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-	// to and from are both route objects. must call `next`.
-	switch (to.path) {
-		case '/':
-			if (store.getters['myModule/getLoginStatus']) {
-				next();
-				break;
-			}
+	if (to.matched.some(record => record.meta.requiresAuth)) {
+		if (!store.getters['myModule/getLoginStatus']) {
 			next('/login');
-			break;
-		default:
-			next();
-			break;
+			return;
+		}
+		next();
+		return;
 	}
+	next();
 })
 
 export default router

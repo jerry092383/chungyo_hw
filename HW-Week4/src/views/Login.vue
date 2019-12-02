@@ -51,14 +51,15 @@ export default class Login extends Vue {
         name: "" as string
     };
     rules: object = {
-        account: [{ required: true, message: "請輸入帳號", trigger: "blur" }],
-        password: [{ required: true, message: "請輸入密碼", trigger: "blur" }]
+        account: [{ required: true, message: "請輸入帳號", trigger: "blur" }] as any[],
+        password: [{ required: true, message: "請輸入密碼", trigger: "blur" }] as any[]
     };
 
-    @Mutation("setMemberStatus", { namespace: "myModule" }) setMemberStatus: any;
-    @Getter('getMemberData', { namespace: 'myModule' }) memberData: any;
+    @Mutation("SET_MEMBER_STATUS", { namespace: "myModule" })
+    SET_MEMBER_STATUS: any;
+    @Getter("getMemberData", { namespace: "myModule" }) memberData: any;
 
-    public checkLogin(formName: string): void {
+    private checkLogin(formName: string): void {
         (this.$refs[formName] as any).validate((valid: boolean) => {
             if (valid) {
                 this.axios
@@ -67,29 +68,31 @@ export default class Login extends Vue {
                         password: this.ruleForm.password
                     })
                     .then(response => {
-                        console.log(response.data);
+                        // console.log(response.data);
                         if (response.data.status === "success") {
                             let data: object = {
                                 name: response.data.data.name,
                                 account: response.data.data.account
                             };
-                            this.setMemberStatus(data);
+                            this.SET_MEMBER_STATUS(data);
                             this.$router.push("/");
                             this.$notify.success({
                                 title: "登入",
                                 message: response.data.msg,
-                                offset: 60
+                                offset: 60,
+                                duration: 2500
                             });
                             return;
                         }
                         this.$notify.error({
                             title: "登入",
                             message: response.data.msg,
-                            offset: 60
+                            offset: 60,
+                            duration: 2500
                         });
                     })
-                    .catch(err => {
-                        console.log(err);
+                    .catch(error => {
+                        console.log(error);
                     });
             }
         });

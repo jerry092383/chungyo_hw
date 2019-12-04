@@ -27,11 +27,8 @@
                     el-button(
                         type="warning"
                         circle
+                        size="small"
                     ): i.el-icon-edit
-                    el-button(
-                        type="danger"
-                        circle
-                    ): i.el-icon-delete
 </template>
 
 <script lang="ts">
@@ -46,7 +43,7 @@ export default class AccountManage extends Vue {
     }
 
     // 取得管理帳號清單
-    getAccountList() {
+    private getAccountList() {
         this.axios
             .get("/api/account")
             .then(response => {
@@ -57,7 +54,7 @@ export default class AccountManage extends Vue {
             });
     }
 
-    setMemberIsOpen() {}
+    private setMemberIsOpen() {}
 }
 </script>
 

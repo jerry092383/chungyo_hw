@@ -49,7 +49,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
 	if (to.matched.some(record => record.meta.requiresAuth)) {
-		if (!store.getters['myModule/getLoginStatus']) {
+		if (!store.state.myModule.member.isLogin) {
 			next('/login');
 			return;
 		}

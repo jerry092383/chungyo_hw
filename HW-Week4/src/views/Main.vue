@@ -1,21 +1,22 @@
 <template lang="pug">
-    el-container
+    #main
         el-container
-
-            //- 側邊攔
-            el-aside
-                NavMenu
-
-            //- 主要內容區
             el-container
 
-                //- 導覽列
-                el-header
-                    Navbar
+                //- 側邊攔
+                el-aside
+                    NavMenu
 
-                //- 頁面切換區
-                el-main
-                    router-view
+                //- 主要內容區
+                el-container
+
+                    //- 導覽列
+                    el-header
+                        Navbar
+
+                    //- 頁面切換區
+                    el-main
+                        router-view
 </template>
 
 <script lang="ts">
@@ -33,9 +34,12 @@ export default class Main extends Vue {}
 </script>
 
 <style lang="scss" scoped>
+#main {
+    height: 100%;
+}
 .el-container {
+    height: 100%;
     width: 100%;
-    height: 100vh;
     .el-aside {
         height: 100%;
         background-color: #545c64;

@@ -1,15 +1,15 @@
 <template lang="pug">
-    div#navbar
-        div#pageName
-            el-breadcrumb(separator-class="el-icon-arrow-right")
-                el-breadcrumb-item(:to="{path: '/'}") 首頁
-                el-breadcrumb-item(v-if="!($route.name === '首頁')") {{ $route.name }}
-        ul
-            li: i.el-icon-user-solid {{ memberData.name }}
-            li: a(
-                href=""
-                @click.prevent="logout"
-            ) 登出
+div#navbar
+    div#pageName
+        el-breadcrumb(separator-class="el-icon-arrow-right")
+            el-breadcrumb-item(:to="{path: '/'}") 首頁
+            el-breadcrumb-item(v-if="!($route.name === '首頁')") {{ $route.name }}
+    ul
+        li: i.el-icon-user-solid {{ memberData.name }}
+        li: a(
+            href=""
+            @click.prevent="logout"
+        ) 登出
 </template>
 
 <script lang="ts">

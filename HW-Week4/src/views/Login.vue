@@ -1,40 +1,41 @@
 <template lang="pug">
-    el-container#login
-        el-main
-            h1 補習班繳費管理系統
-            el-row
-                el-col(
-                    :span="6"
-                    :offset="9"
-                )
-                    el-card
-                        div(slot="header")
-                            span 登入
-                        el-form(
-                            :model="ruleForm"
-                            :rules="rules" ref="ruleForm"
-                            @keyup.enter.native="checkLogin('ruleForm')"
-                            status-icon
-                        )
-                            el-form-item(prop="account")
-                                el-input(
-                                    v-model="ruleForm.account"
-                                    placeholder="請輸入帳號" clearable
-                                )
-                                    template(slot="prepend"): i.el-icon-user
-                            el-form-item(prop="password")
-                                el-input(
-                                    v-model="ruleForm.password"
-                                    placeholder="請輸入密碼"
-                                    clearable
-                                    show-password
-                                )
-                                    template(slot="prepend"): i.el-icon-lock
-                            el-button(
-                                type="primary"
-                                @click.prevent="checkLogin('ruleForm')"
-                                round
-                            ) 送出
+el-container#login
+    el-main
+        h1 補習班繳費管理系統
+        el-row
+            el-col(
+                :span="6"
+                :offset="9"
+            )
+                el-card
+                    div(slot="header")
+                        span 登入
+                    el-form(
+                        :model="ruleForm"
+                        :rules="rules" ref="ruleForm"
+                        @keyup.enter.native="checkLogin('ruleForm')"
+                        status-icon
+                    )
+                        el-form-item(prop="account")
+                            el-input(
+                                v-model="ruleForm.account"
+                                placeholder="請輸入帳號"
+                                clearable
+                            )
+                                template(slot="prepend"): i.el-icon-user
+                        el-form-item(prop="password")
+                            el-input(
+                                v-model="ruleForm.password"
+                                placeholder="請輸入密碼"
+                                clearable
+                                show-password
+                            )
+                                template(slot="prepend"): i.el-icon-lock
+                        el-button(
+                            type="primary"
+                            @click.prevent="checkLogin('ruleForm')"
+                            round
+                        ) 送出
 </template>
 
 <script lang="ts">
@@ -51,13 +52,18 @@ export default class Login extends Vue {
         name: "" as string
     };
     rules: object = {
-        account: [{ required: true, message: "請輸入帳號", trigger: "blur" }] as any[],
-        password: [{ required: true, message: "請輸入密碼", trigger: "blur" }] as any[]
+        account: [
+            { required: true, message: "請輸入帳號", trigger: "blur" }
+        ] as any[],
+        password: [
+            { required: true, message: "請輸入密碼", trigger: "blur" }
+        ] as any[]
     };
 
     @Mutation("SET_MEMBER_STATUS", { namespace: "myModule" })
     SET_MEMBER_STATUS: any;
-    @Getter("getMemberData", { namespace: "myModule" }) memberData: any;
+    @Getter("getMemberData", { namespace: "myModule" })
+    memberData: any;
 
     private checkLogin(formName: string): void {
         (this.$refs[formName] as any).validate((valid: boolean) => {

@@ -12,4 +12,11 @@ export default class App extends Vue {}
 </script>
 
 <style lang="scss">
+#app {
+    height: 100vh;
+//     overflow-x: hidden;
+//     #wrap {
+//         // height: 100vh;
+//     }
+}
 </style>

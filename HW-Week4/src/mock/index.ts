@@ -3,34 +3,22 @@ import Mock from 'mockjs'
 
 // 設置管理員帳號
 const getMember = () => {
-    let data: any[] = [
-        {
-            "name": "管理員",
-            "account": 'admin',
-            "password": 'admin',
-            "isOpen": true
-        },
-        {
-            "name": '阿正',
-            "account": 'jerry123',
-            "password": 'jerry456',
-            "isOpen": false
-        },
-        {
-            "name": '檸檬',
-            "account": 'emily123',
-            "password": 'emily456',
-            "isOpen": true
-        },
-        {
-            "name": 'louis',
-            "account": 'louis123',
-            "password": 'louis456',
-            "isOpen": true
-        }
-    ]
+    let nameArr: any[] = ['管理員', '阿正', '檸檬', '路人'];
+    let accountArr: any[] = ['admin', 'jerry123', 'emily123', 'man123'];
+    let passwordArr: any[] = ['admin', 'jerry456', 'emily456', 'man456'];
+    let isOpenArr: any[] = [true, true, true, false];
+    let memberArr: any[] = [];
+    for (let i = 1; i <= 4; i++) {
+        memberArr.push({
+            'id': i,
+            'name': nameArr[i - 1],
+            'account': accountArr[i - 1],
+            'password': passwordArr[i - 1],
+            'isOpen': isOpenArr[i - 1]
+        })
+    }
 
-    return data;
+    return memberArr;
 }
 
 // 確認是否登入成功
@@ -54,7 +42,6 @@ const checkLogin = (member: any) => {
                 'data': members[i]
             }
         }
-
     }
 
     return {
@@ -67,12 +54,14 @@ const checkLogin = (member: any) => {
 const getSubjectList = () => {
     let nameArr: any[] = ['國文', '英文', '數學', '化學', '物理', '公民', '歷史', '地理'];
     let priceArr: any[] = [2000, 2000, 2000, 2500, 2500, 1500, 1500, 1500];
+    let teacher: any[] = ['吳岳', '張靜', '陳立', '張鎮麟', '張飛', '吳凡', '呂捷', '周盈'];
     let subjectArr: any[] = [];
-    for (let i = 0; i < 8; i++) {
+    for (let i = 1; i <= 8; i++) {
         subjectArr.push({
-            name: nameArr[i],
-            price: priceArr[i],
-            teacher: `${Mock.mock('@cfirst')}${Mock.mock('@clast')}`
+            id: i,
+            name: nameArr[i - 1],
+            price: priceArr[i - 1],
+            teacher: teacher[i - 1]
         });
     }
 
@@ -82,24 +71,33 @@ const getSubjectList = () => {
 // 取得學生清單
 const getStudentList = () => {
     let studentArr: any[] = [];
-    for (let i = 0; i < 10; i++) {
+    let subjectArr: any[] = getSubjectList();
+    for (let i = 1; i <= 20; i++) {
+        let ownSubject: any[] = subjectArr.filter(item => {
+            if (Mock.Random.integer(0, 1)) {
+                return item
+            }
+        });
         studentArr.push({
-            name: Mock.Random.cname()
+            id: i,
+            name: Mock.Random.cname(),
+            subject: ownSubject,
+            phone: `09${Mock.Random.integer(10000000, 99999999)}`,
+            isPayed: Mock.Random.integer(0, 1)
         });
     }
 
     return studentArr;
 }
 
-const setMemberIsOpen = (setData: any) => {
-    let memberArr = getMember();
-    
-}
-
-Mock.mock('/api/account/isOpen', 'post', setMemberIsOpen)
+// 帳號 api
 Mock.mock('/api/account', 'get', getMember);
 Mock.mock('/api/login', 'post', checkLogin);
+
+// 科目 api
 Mock.mock('/api/subject', 'get', getSubjectList);
+
+// 學生 api
 Mock.mock('/api/student', 'get', getStudentList);
 
 export default Mock

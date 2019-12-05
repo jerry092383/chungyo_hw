@@ -8,13 +8,13 @@ const getMember = () => {
     let passwordArr: any[] = ['admin', 'jerry456', 'emily456', 'man456'];
     let isOpenArr: any[] = [true, true, true, false];
     let memberArr: any[] = [];
-    for (let i = 1; i <= 4; i++) {
+    for (let i = 0; i < 4; i++) {
         memberArr.push({
             'id': i,
-            'name': nameArr[i - 1],
-            'account': accountArr[i - 1],
-            'password': passwordArr[i - 1],
-            'isOpen': isOpenArr[i - 1]
+            'name': nameArr[i],
+            'account': accountArr[i],
+            'password': passwordArr[i],
+            'isOpen': isOpenArr[i]
         })
     }
 
@@ -90,9 +90,28 @@ const getStudentList = () => {
     return studentArr;
 }
 
+// 管理員修改密碼
+const updatePassword = (data: any) => {
+    let memberData: any = getMember();
+    let index: number = memberData.findIndex((item: any) => {
+        return item.account === JSON.parse(data.body).account;
+    });
+    if (index !== -1) {
+        return {
+            'status': 'success',
+            'msg': '修改成功'
+        }
+    }
+    return {
+        'status': 'failed',
+        'msg': '修改失敗'
+    }
+}
+
 // 帳號 api
 Mock.mock('/api/account', 'get', getMember);
 Mock.mock('/api/login', 'post', checkLogin);
+Mock.mock('/api/password', 'post', updatePassword)
 
 // 科目 api
 Mock.mock('/api/subject', 'get', getSubjectList);

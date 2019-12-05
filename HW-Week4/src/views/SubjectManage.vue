@@ -13,6 +13,7 @@ div
             :data="subjectData"
             stripe
         )
+            el-table-column(width="20px")
             el-table-column(
                 prop="name"
                 label="科目名"
@@ -98,7 +99,6 @@ export default class SubjectManage extends Vue {
         this.axios
             .get(`/api/subject`)
             .then(response => {
-                console.log(response.data);
                 this.subjectData = [...response.data];
             })
             .catch(error => {
@@ -116,9 +116,7 @@ export default class SubjectManage extends Vue {
 
     // 新增科目
     private addSubject(data: any) {
-        console.log(data);
         this.subjectData.push(data);
-        console.log(this.subjectData);
         this.$message({
             type: 'success',
             message: '新增成功'
@@ -146,7 +144,7 @@ export default class SubjectManage extends Vue {
         this.$confirm("確定要刪除嗎？", "提示", {
             confirmButtonText: "確定",
             cancelButtonText: "取消",
-            type: "error"
+            type: "warning"
         })
             .then(() => {
                 let index: number = this.subjectData.findIndex((item: any) => {
@@ -171,8 +169,5 @@ export default class SubjectManage extends Vue {
 <style lang="scss" scoped>
 .right {
     text-align: right;
-}
-.add {
-    margin-bottom: 20px;
 }
 </style>

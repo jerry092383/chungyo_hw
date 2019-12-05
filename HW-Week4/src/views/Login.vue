@@ -12,7 +12,8 @@ el-container#login
                         span 登入
                     el-form(
                         :model="ruleForm"
-                        :rules="rules" ref="ruleForm"
+                        :rules="rules"
+                        ref="ruleForm"
                         @keyup.enter.native="checkLogin('ruleForm')"
                         status-icon
                     )
@@ -49,7 +50,6 @@ export default class Login extends Vue {
     ruleForm: any = {
         account: "" as string,
         password: "" as string,
-        name: "" as string
     };
     rules: object = {
         account: [
@@ -76,6 +76,7 @@ export default class Login extends Vue {
                     .then(response => {
                         // console.log(response.data);
                         if (response.data.status === "success") {
+                            console.log(response.data);
                             let data: object = {
                                 name: response.data.data.name,
                                 account: response.data.data.account

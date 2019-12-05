@@ -49,5 +49,10 @@ export default class Main extends Vue {}
         color: #fff;
         font-size: 1.2em;
     }
+    .el-main {
+        padding-left: 0;
+        padding-right: 0;
+        padding-bottom: 0;
+    }
 }
 </style>

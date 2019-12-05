@@ -14,7 +14,7 @@
                 :row-key='getRowKeys'
                 :expand-row-keys="expands"
                 @expand-change="expandSelect"
-                stripe
+                :row-class-name="tableRowClass"
             )
                 el-table-column(type="expand")
                     template(v-slot="scope")
@@ -213,11 +213,15 @@ export default class StudentManage extends Vue {
         });
         data.subject = ownSubject;
         this.studentData.push(data);
+        this.$message({
+            type: "success",
+            message: "新增成功"
+        });
     }
 
     // 學生資料修改
     private updateStudent(data: any) {
-        let index: number = this.studentData.findIndex((item: any)  => {
+        let index: number = this.studentData.findIndex((item: any) => {
             return item.id === data.id;
         });
         let ownSubject: any[] = [];
@@ -236,6 +240,10 @@ export default class StudentManage extends Vue {
         console.log(data.totalPrice);
         data.subject = ownSubject;
         this.$set(this.studentData, index, data);
+        this.$message({
+            type: "success",
+            message: "修改成功"
+        });
     }
 
     // 刪除學生
@@ -243,7 +251,7 @@ export default class StudentManage extends Vue {
         this.$confirm("確定要刪除嗎？", "提示", {
             confirmButtonText: "確定",
             cancelButtonText: "取消",
-            type: "error"
+            type: "warning"
         })
             .then(() => {
                 let index: number = this.studentData.findIndex((item: any) => {
@@ -279,7 +287,7 @@ export default class StudentManage extends Vue {
     }
 
     // 選擇打開折疊的學生資料
-    private expandSelect(row: any, expandedRows: any) {
+    private expandSelect(row: any, expandedRows: any[]) {
         if (expandedRows.length) {
             this.expands = [];
             if (row) {
@@ -288,6 +296,16 @@ export default class StudentManage extends Vue {
             }
         }
         this.expands = [];
+    }
+
+    private tableRowClass(row: any, rowIndex: any) {
+        console.log(row);
+        if (row.row.isPayed === 1) {
+            console.log(row.row.isPayed);
+            return "success-row";
+        }
+        console.log(row.row.isPayed);
+        return "warning-row";
     }
 }
 </script>
@@ -307,9 +325,16 @@ export default class StudentManage extends Vue {
         }
     }
 }
-
-.el-table-column {
-    display: block;
+.el-table::v-deep {
+    .warning-row {
+        background: oldlace;
+    }
+    .success-row {
+        background: #f0f9eb;
+    }
+    .el-table-column {
+        display: block;
+    }
 }
 
 .right {
@@ -327,8 +352,5 @@ export default class StudentManage extends Vue {
 .subject {
     line-height: 40px;
     color: #606266;
-}
-.add {
-    margin-bottom: 20px;
 }
 </style>

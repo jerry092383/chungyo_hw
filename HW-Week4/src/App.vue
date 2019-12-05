@@ -14,9 +14,9 @@ export default class App extends Vue {}
 <style lang="scss">
 #app {
     height: 100vh;
-//     overflow-x: hidden;
-//     #wrap {
-//         // height: 100vh;
-//     }
+}
+.add {
+    margin-bottom: 20px !important;
+    margin-left: 20px !important;
 }
 </style>

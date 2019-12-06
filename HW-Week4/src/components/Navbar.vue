@@ -107,7 +107,7 @@ export default class Navbar extends Vue {
     @Mutation("LOGOUT_MEMBER", { namespace: "myModule" }) LOGOUT_MEMBER: any;
 
     // 登出
-    logout() {
+    private logout() {
         this.LOGOUT_MEMBER();
         sessionStorage.removeItem("member");
         this.$notify.success({
@@ -120,7 +120,7 @@ export default class Navbar extends Vue {
     }
 
     // 開啟對話框
-    clickDialogOpen(command: any) {
+    private clickDialogOpen(command: any) {
         if (command.funcName === "ownData") {
             this.ownDataOpen = command.status;
             return;
@@ -129,7 +129,7 @@ export default class Navbar extends Vue {
     }
 
     // 修改密碼
-    updatePassword(data: string) {
+    private updatePassword(data: string) {
         (this.$refs[data] as any).validate((valid: boolean) => {
             if (valid) {
                 this.axios
@@ -157,7 +157,7 @@ export default class Navbar extends Vue {
     }
 
     // 清除資料
-    cleanData() {
+    private cleanData() {
         this.password = {};
     }
 }
